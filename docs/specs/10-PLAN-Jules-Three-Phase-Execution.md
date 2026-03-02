@@ -50,3 +50,11 @@ Exit criteria:
 - Integration path is stable after upstream assimilation.
 - Final PR update documents what changed and why.
 - Follow-up work is reduced to optional enhancements, not structural fixes.
+
+## Phase 3 kickoff status
+
+- Phase 2 merge completed in fork (`pcelebrado/opencode#1`).
+- Phase 3 execution branch: `chasing-jules-phase3`.
+- Phase 3 decision/journal:
+  - `docs/specs/12-DECISION-Phase3-Jules-Completion.md`
+  - `docs/specs/12-JOURNAL-Phase3-Jules-Completion.md`

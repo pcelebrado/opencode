@@ -1,5 +1,5 @@
 import { test, expect, describe } from "bun:test"
-import { resolvePluginProviders } from "../../src/cli/cmd/auth"
+import { resolveBuiltinProviders, resolvePluginProviders } from "../../src/cli/cmd/auth"
 import type { Hooks } from "@opencode-ai/plugin"
 
 function hookWithAuth(provider: string): Hooks {
@@ -116,5 +116,44 @@ describe("resolvePluginProviders", () => {
       providerNames: {},
     })
     expect(result).toEqual([])
+  })
+})
+
+describe("resolveBuiltinProviders", () => {
+  test("includes Jules when not in models.dev", () => {
+    const result = resolveBuiltinProviders({
+      existingProviders: {},
+      pluginProviders: [],
+      disabled: new Set(),
+    })
+    expect(result.some((item) => item.id === "jules")).toBe(true)
+  })
+
+  test("skips Jules when disabled", () => {
+    const result = resolveBuiltinProviders({
+      existingProviders: {},
+      pluginProviders: [],
+      disabled: new Set(["jules"]),
+    })
+    expect(result.some((item) => item.id === "jules")).toBe(false)
+  })
+
+  test("respects enabled providers", () => {
+    const result = resolveBuiltinProviders({
+      existingProviders: {},
+      pluginProviders: [],
+      disabled: new Set(),
+      enabled: new Set(["anthropic"]),
+    })
+    expect(result.some((item) => item.id === "jules")).toBe(false)
+  })
+
+  test("skips builtins if plugin already provides same id", () => {
+    const result = resolveBuiltinProviders({
+      existingProviders: {},
+      pluginProviders: [{ id: "jules" }],
+      disabled: new Set(),
+    })
+    expect(result.some((item) => item.id === "jules")).toBe(false)
   })
 })

@@ -16,6 +16,14 @@ import { text } from "node:stream/consumers"
 
 type PluginAuth = NonNullable<Hooks["auth"]>
 
+const BUILTIN_AUTH_PROVIDERS = [
+  {
+    id: "jules",
+    name: "Jules",
+    hint: "Google Jules API key",
+  },
+]
+
 /**
  * Handle plugin-based authentication flow.
  * Returns true if auth was handled, false if it should fall through to default handling.
@@ -193,6 +201,28 @@ export function resolvePluginProviders(input: {
   return result
 }
 
+export function resolveBuiltinProviders(input: {
+  existingProviders: Record<string, unknown>
+  pluginProviders: Array<{ id: string }>
+  disabled: Set<string>
+  enabled?: Set<string>
+}): Array<{ id: string; name: string; hint?: string }> {
+  const seen = new Set<string>([
+    ...Object.keys(input.existingProviders),
+    ...input.pluginProviders.map((item) => item.id),
+  ])
+  const result: Array<{ id: string; name: string; hint?: string }> = []
+
+  for (const provider of BUILTIN_AUTH_PROVIDERS) {
+    if (seen.has(provider.id)) continue
+    if (input.disabled.has(provider.id)) continue
+    if (input.enabled && !input.enabled.has(provider.id)) continue
+    result.push(provider)
+  }
+
+  return result
+}
+
 export const AuthCommand = cmd({
   command: "auth",
   describe: "manage credentials",
@@ -321,6 +351,12 @@ export const AuthLoginCommand = cmd({
           enabled,
           providerNames: Object.fromEntries(Object.entries(config.provider ?? {}).map(([id, p]) => [id, p.name])),
         })
+        const builtinProviders = resolveBuiltinProviders({
+          existingProviders: providers,
+          pluginProviders,
+          disabled,
+          enabled,
+        })
         let provider = await prompts.autocomplete({
           message: "Select provider",
           maxItems: 8,
@@ -346,6 +382,11 @@ export const AuthLoginCommand = cmd({
               label: x.name,
               value: x.id,
               hint: "plugin",
+            })),
+            ...builtinProviders.map((x) => ({
+              label: x.name,
+              value: x.id,
+              hint: x.hint,
             })),
             {
               value: "other",
@@ -399,6 +440,10 @@ export const AuthLoginCommand = cmd({
 
         if (provider === "vercel") {
           prompts.log.info("You can create an api key at https://vercel.link/ai-gateway-token")
+        }
+
+        if (provider === "jules") {
+          prompts.log.info("Create a Jules API key in Google Jules and paste it here")
         }
 
         if (["cloudflare", "cloudflare-ai-gateway"].includes(provider)) {
