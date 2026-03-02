@@ -55,6 +55,27 @@ export namespace Server {
     return _url ?? new URL("http://localhost:4096")
   }
 
+  export function eventSessionID(input: unknown) {
+    if (!input || typeof input !== "object") return
+    const seen = new Set<unknown>()
+    const queue: unknown[] = [input]
+
+    while (queue.length > 0) {
+      const item = queue.shift()
+      if (!item || typeof item !== "object") continue
+      if (seen.has(item)) continue
+      seen.add(item)
+      if ("sessionID" in item && typeof item.sessionID === "string") {
+        return item.sessionID
+      }
+      for (const value of Object.values(item)) {
+        if (value && typeof value === "object") {
+          queue.push(value)
+        }
+      }
+    }
+  }
+
   const app = new Hono()
   export const App: () => Hono = lazy(
     () =>
@@ -515,7 +536,14 @@ export namespace Server {
               },
             },
           }),
+          validator(
+            "query",
+            z.object({
+              sessionID: z.string().optional(),
+            }),
+          ),
           async (c) => {
+            const sessionID = c.req.query("sessionID")
             log.info("event connected")
             c.header("X-Accel-Buffering", "no")
             c.header("X-Content-Type-Options", "nosniff")
@@ -527,6 +555,10 @@ export namespace Server {
                 }),
               })
               const unsub = Bus.subscribeAll(async (event) => {
+                if (sessionID) {
+                  const current = eventSessionID(event.properties)
+                  if (current && current !== sessionID) return
+                }
                 await stream.writeSSE({
                   data: JSON.stringify(event),
                 })
