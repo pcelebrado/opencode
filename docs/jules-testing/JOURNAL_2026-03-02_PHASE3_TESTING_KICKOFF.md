@@ -17,6 +17,12 @@ forward testing journals in `docs/jules-testing/`.
 - `test-repos/py-backend-hardening`
 - `test-repos/react-kanban-widget`
 
+## Active GitHub repos for Jules/Juno
+
+- `https://github.com/pcelebrado/jules-test-todo-api-ts`
+- `https://github.com/pcelebrado/jules-test-py-backend-hardening`
+- `https://github.com/pcelebrado/jules-test-react-kanban-widget`
+
 ## Decision state
 
 Phase 3 remains OPEN until manual validation is complete and final upstream PR
