@@ -54,3 +54,37 @@
   `0.0.0-chasing-jules-phase3-202603021407`.
 - Runtime command precedence was updated via user PATH so `opencode` resolves
   to the Phase 3 branch build for manual validation today.
+
+## Milestone 7 - branch governance and maintainer alignment
+
+- Merged fork PR `#1` into `origin/dev` to lock Phase 2 `sessionID` SSE filter.
+- Aligned PR communication on `anomalyco/opencode#15702` to Phase 1 scope and
+  fork-evidence testing methodology.
+- Removed stale/noisy comments and kept a single current status thread.
+
+## Milestone 8 - documentation restoration and continuity hardening
+
+- Restored strategist/oracle/designer mirrors under `docs/discussions/`.
+- Restored OpenFixer journal mirrors under `docs/deployment/`.
+- Added consolidated Phase 2 and Phase 3 idea log:
+  `docs/discussions/PHASE2_PHASE3_IDEA_LOG.md`.
+- Confirmed decision posture: Phase 3 remains `OPEN` pending Nexus testing and
+  final upstream PR.
+
+## Milestone 9 - Jules testing harness expansion
+
+- Built three sample test repos under `docs/jules-testing/test-repos/` and
+  initialized each as its own git repository.
+- Published GitHub repos for agent performance auditing:
+  - `https://github.com/pcelebrado/jules-test-todo-api-ts`
+  - `https://github.com/pcelebrado/jules-test-py-backend-hardening`
+  - `https://github.com/pcelebrado/jules-test-react-kanban-widget`
+- Updated testing docs with direct GitHub links for Jules/Juno execution.
+
+## Milestone 10 - release and runtime stability controls
+
+- Created prerelease tag with CLI asset:
+  `v0.0.0-chasing-jules-phase3-202603021421`.
+- Attached Windows CLI binary for manual validation distribution.
+- Corrected wrapper/path drift so development pushes no longer depend on a
+  running dist binary lock path.
