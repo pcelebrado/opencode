@@ -23,3 +23,4 @@
 
 - Nexus will run manual testing today on `chasing-jules-phase3`.
 - PR creation is intentionally deferred until Nexus confirms runtime behavior.
+- Final decision state remains `OPEN` until those two events complete.

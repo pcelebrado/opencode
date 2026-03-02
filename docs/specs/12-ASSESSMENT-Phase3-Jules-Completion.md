@@ -26,3 +26,9 @@
 - Keep Phase 3 changes constrained to auth discoverability and docs until Nexus
   manual runtime verification completes.
 - Defer cross-ticket closure updates to post-test pass and final PR preparation.
+
+## Assessment gate
+
+- Final assessment remains provisional until manual testing is complete.
+- Decision closure is blocked on Nexus test confirmation and final upstream PR
+  creation.

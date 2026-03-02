@@ -1,5 +1,14 @@
 # Decision: Phase 3 Jules integration completion
 
+## Decision status
+
+- Status: `OPEN`
+- Owner: Nexus
+- Close criteria:
+  1. Nexus completes manual testing on `chasing-jules-phase3`.
+  2. Final Phase 3 PR is opened to OpenCode upstream.
+  3. Post-test ticket-touch review is documented.
+
 ## Decision context
 
 - Parent plan: `docs/specs/10-PLAN-Jules-Three-Phase-Execution.md`
@@ -56,3 +65,12 @@ Required validation for this slice:
 - `bun test test/cli/plugin-auth-picker.test.ts`
 - `bun test test/server/event-subscribe.test.ts`
 - `bun test test/control-plane/sse.test.ts test/acp/event-subscription.test.ts`
+
+## Current branch
+
+- Fork validation branch:
+  `https://github.com/pcelebrado/opencode/tree/chasing-jules-phase3`
+- Tracking thread note:
+  `https://github.com/anomalyco/opencode/pull/15702#issuecomment-3984629567`
+- Local runtime target for manual validation:
+  `0.0.0-chasing-jules-phase3-202603021407`

@@ -40,3 +40,17 @@
 - Completion note prepared for tracking thread:
   - Nexus will test this branch today.
   - PR will be opened when final validation is complete.
+
+## Milestone 5 - decision remains open
+
+- This decision is intentionally kept `OPEN` pending Nexus manual validation.
+- No Phase 3 upstream PR will be opened until test confirmation is complete.
+- After manual test pass, we will prepare ticket-touch update notes and then
+  open the final PR.
+
+## Milestone 6 - local runtime binding
+
+- Local OpenCode runtime is now bound to the Phase 3 build version:
+  `0.0.0-chasing-jules-phase3-202603021407`.
+- Runtime command precedence was updated via user PATH so `opencode` resolves
+  to the Phase 3 branch build for manual validation today.
